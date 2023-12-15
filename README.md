@@ -24,3 +24,11 @@ Kopiere den Inhalt vom File "import_tabelle.sql" und führe diesen aus über die
 Anschliessend kopierst du den Inhalt vom File "import.sql". Achte darauf, dass du den Pfad deines CSV Files im script richtig angibst.
 Anschliessend führst du auch dieses Script aus. Wenn du alles richtig gemacht hast solltest du deine Datenbank nun mit Datensätzten gefüllt haben.
 Überprüfe dies am besten wieder mit einer "select" Abfrage
+
+### Umsetzung der Umgebung
+Es gibt mehrere Möglichkeiten um die Umgebung umzusetzen. Das Veorgehen bleibt jedoch immer gleich: <br>
+1.)   Instanzen bereitstellen (Webserver, Datenbankserver und Client) <br>
+2.)   Entsprechende Rollen und Packete installieren (z.B MariaDB oder das GNA Package) <br>
+3.)   Datenbank erstellen und User anlegen. <br>
+4.)   Datenbank and Webserver anbinden. <br>
+
