@@ -9,6 +9,9 @@ Mike https://drive.google.com/file/d/1dqExdSWeQS-2JuxJp5MfIS_5T0RgXCMB/view?usp=
 Nick https://drive.google.com/drive/folders/1jmm8qUAnTKaKIHUInX1PoK5axRpsJVIK?usp=sharing <br>
 <br>
 
+### Infos zu Software und Umgebung
+Dieses ganze Projekt wurde mithilfe eines Datenbankserver (Ubuntu Server), einem Windows Client, einem Ubuntu Client und Software wie
+MariaDB, MySQL Workbench, winSCP und Putty erstellt
 
 ## Installation
 ### Erstellen der Datenbank
