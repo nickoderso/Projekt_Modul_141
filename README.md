@@ -17,3 +17,7 @@ Kopiere dann den File inhalt von "Create_Database.sql". Anschliessend fügst du 
 Um den Vorgang zu testen machst du nun am besten eine "select" abfrage. Solltest du eine Fehlermedung erhalten hat etwas nicht geklappt.
 
 ### Import der Daten
+Kopiere den Inhalt vom File "import_tabelle.sql" und führe diesen aus über die Workbench. <br>
+Anschliessend kopierst du den Inhalt vom File "import.sql". Achte darauf, dass du den Pfad deines CSV Files im script richtig angibst.
+Anschliessend führst du auch dieses Script aus. Wenn du alles richtig gemacht hast solltest du deine Datenbank nun mit Datensätzten gefüllt haben.
+Überprüfe dies am besten wieder mit einer "select" Abfrage
