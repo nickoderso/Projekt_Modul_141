@@ -1,4 +1,4 @@
-USE modul_141;
+USE Modul_141;
 INSERT INTO modul_141.type(name) 
 SELECT DISTINCT type
 FROM import;
