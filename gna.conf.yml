@@ -1,0 +1,83 @@
+---
+# Applikation
+app:
+  # Ausgeben von DB-Fehlern auf der Konsole
+  print_error: 1
+  # Ausgeben von DB-Fehlern im Web-GUI, Abbrechen des Programms
+  raise_error: 1
+  # Webserver Port
+  port: 3000
+
+##########################################
+# Verbingungsangaben zum Datenbankserver #
+##########################################
+db:
+  dsn: 'DBI:mysql:database=modul_141;host=192.168.210.50;port=3306'
+  user: db
+  pass: sml12345
+
+######################################################################
+# SQL-Queries zur Anbindung der Applikation an die Datenbankstruktur #
+# ****************************************************************** #
+#                                                                    #
+# Die hier per default konfigurierten Queries sind nur Platzhalter,  #
+# damit «etwas» im GUI angezeigt wird! Passen Sie die Queries für    #
+# Ihre Datenbank an!                                                 #
+# Die Variabel-Benennung gibt Hinweise auf involvierte Tabellen. Das #
+# «leere» GUI liefert ebenfalls Hinweise über die Art der Daten. In  #
+# der Dokumentation sind zusätzlich Screenshots eines befüllten GUI. #
+######################################################################
+
+# Project Information
+project:
+  # Dieser Query muss nur angepasst werden, falls Ihre konkrete DB diesen aus Syntax-Gründen nicht ausführen kann.
+  author: 'select content from data_overview where path = "/opt/frigg/admin/projekt.txt";'
+# SQL-Queries für die Startseite
+index:
+  # Select String: Angaben zur Datenbank liefern. Muss allenfalls auf DB angepasst werden.
+  sql_db_version: 'select version();'
+# SQL-Queries für die Übersichts-Seite /overview
+overview:
+  # Select Nummer: Anzahl Einträge pro Tabelle
+  sql_data_count: 'select COUNT(*) FROM data;'
+  sql_meta_count: 'select COUNT(*) FROM meta;'
+  sql_type_count: 'select COUNT(*) FROM type;'
+  sql_tag_count:  'select COUNT(*) FROM tag;'
+  sql_usr_count:  'select COUNT(*) FROM systemuser;'
+  sql_grp_count:  'select COUNT(*) FROM usergroup;'
+  # Select Nummer: Aufsummiertes Attribute «size»
+  sql_data_size_sum: 'select SUM(size) FROM data;'
+  sql_meta_size_sum: 'select SUM(size) FROM meta JOIN data on data.digest=meta.Data_digest;'
+  # Select Nummer: Aufsummierte in der Datenbank belegte Grösse des Attributes «content» in der Tabelle «Data»
+  sql_data_contentsize_sum: 'select SUM(LENGTH(content)) FROM data;'
+  # Select Nummer: Aufsummierte in der Datenbank belegte Grösse des Attributes «content» in der Tabelle «Data»
+  # im JOIN mit der Tabelle «Meta»
+  sql_meta_contentsize_sum: 'select SUM(LENGTH(content)) FROM meta JOIN data on data.digest=meta.Data_digest;'
+# SQL-Query für die «Browse» Seite /browse
+browse:
+  # Select digest, path, size, type, perm, usr, grp, time, compression mit binded Parameter path und limit
+  sql_browseview_bind: "SELECT digest, path, size, type, perm, uid, gid, time, compression FROM data_overview WHERE path LIKE ? LIMIT ?;"
+# SQL-Queries für die Daten-Seite /data
+data:
+  # Select String: Attribut «content» mit binded Parameter «digest»
+  sql_content_bind: "select content from data_overview where digest = ?;"
+  # Select String: Attribut «path» mit binded Parameter «digest»
+  sql_contentpaths_bind: "select path from data_overview where digest = ?;"
+  # Insert String: binded Parameter für Attribut «Tag.name»,
+  # bereits vorhandene Namen sollen ignoriert werden (keine doppelte Ablage)
+  sql_tag_insert_unique_bind: 'INSERT IGNORE INTO tag (Name) VALUES (?);'
+  # Insert Nummern: FKs für «Data» und «Tag» in Tabelle «DataTag» einfügen,
+  # mit binden Parameter «Data.id» und «Tag.name»
+  sql_datatag_insert_unique_bind: 'INSERT IGNORE INTO data_tag (Data_Digest, Tag_ID) VALUES (?, (SELECT ID FROM tag WHERE Name = ?));'
+  # Select String: Tag anzeigen, mit binden Parameter «Data.id/digest»
+  sql_tag_for_digest_bind: "SELECT Name FROM data_tag JOIN tag ON data_tag.Tag_ID = tag.ID WHERE data_tag.data_Digest = ? LIMIT 2;"
+# SQL-Query für Anzeige Dateiinhalt auf der Seite /raw
+raw:
+  # Select String: Dateityp anhand von binded Parameter «digest» auswählen
+  # (nicht im GUI sichtbar, für HTTP-Content-Type)
+  sql_contenttype_bind: "SELECT type FROM data_overview WHERE digest = ? LIMIT 1;"
+tags:
+  # Select String: Anzeige aller gesetzten Tags
+  sql_tags_all_ordered: "select name from tag ORDER BY name;"
+  # Select String: Anzeige aller Dateipfade für ein Tag
+  sql_metapaths_for_tag_bind: "select path from data_tag JOIN meta ON data_tag.Data_Digest = meta.data_digest WHERE data_tag.tag_ID = (SELECT ID FROM tag WHERE name = ?);"
